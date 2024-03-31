@@ -64,5 +64,6 @@ html {
       </div>
 
     </div>
+    <div style={{position: 'fixed', right: '1em', bottom: '0.8em', color: 'gray'}}><a href="https://github.com/zweifisch/tailwindcss-playground">GitHub</a></div>
   </>
 }

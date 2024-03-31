@@ -1,0 +1,29 @@
+{
+  "name": "tailwind-playground",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "types": "build/index.d.ts",
+  "devDependencies": {
+    "@codemirror/lang-html": "^6.0.2",
+    "@lezer/generator": "^1.7.0",
+    "@twind/core": "^1.1.3",
+    "@twind/preset-autoprefix": "^1.0.7",
+    "@twind/preset-tailwind": "^1.1.4",
+    "@types/node": "^14",
+    "@types/react": "^16",
+    "codemirror": "^6",
+    "instjs": "^1.0.2",
+    "standard-version": "^9.5.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^4"
+  },
+  "scripts": {
+    "dev": "instjs",
+    "release": "standard-version",
+    "build": "instjs build --dist docs",
+    "tsc": "tsc -p .",
+    "gen": "lezer-generator src/parser.grammar -o src/parser.js",
+    "prepare": "npm run build"
+  }
+}

@@ -1,0 +1,8 @@
+@top ClassNames { ClassName* }
+
+@skip { space }
+
+@tokens {
+  space { @whitespace+ }
+  ClassName { $[:A-Za-z0-9_-]+ }
+}

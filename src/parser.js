@@ -2,14 +2,14 @@
 import {LRParser} from "@lezer/lr"
 export const parser = LRParser.deserialize({
   version: 14,
-  states: "hQVQPOOOOQO'#C_'#C_QVQPOOOOQO-E6]-E6]",
-  stateData: "[~OUOS~OQPO~O",
-  goto: "ZSPPPTQQORRQ",
-  nodeNames: "⚠ ClassNames ClassName",
-  maxTerm: 6,
+  states: "!jOVQPOOO[QPO'#C`OOQO'#Cb'#CbOVQPO'#C^OOQO'#C^'#C^OOQO'#Ca'#CaQVQPOOOOQO,58y,58yOOQO-E6`-E6`OOQO,58x,58xOOQO-E6_-E6_PgQPO'#C_",
+  stateData: "l~OXOS~OYPO~OZVOVSXYSX~OZVO~O",
+  goto: "uVPPW[ahnTTOUVQORUSSOURXRQUORYUSROURWR",
+  nodeNames: "⚠ ClassNames FullClassName Modifier ClassName",
+  maxTerm: 11,
   skippedNodes: [0],
-  repeatNodeCount: 1,
-  tokenData: "#a~R`X^!Tpq!T}!O!x!Q![!x![!]!x!c!}!x#R#S!x#T#o!x#y#z!T$f$g!T#BY#BZ!T$IS$I_!T$I|$JO!T$JT$JU!T$KV$KW!T&FU&FV!T~!YYU~X^!Tpq!T#y#z!T$f$g!T#BY#BZ!T$IS$I_!T$I|$JO!T$JT$JU!T$KV$KW!T&FU&FV!T~!}UQ~}!O!x!Q![!x![!]!x!c!}!x#R#S!x#T#o!x",
+  repeatNodeCount: 2,
+  tokenData: "#c~R`X^!Tpq!T}!O!x!Q![!x![!]#^!c!}!x#R#S!x#T#o!x#y#z!T$f$g!T#BY#BZ!T$IS$I_!T$I|$JO!T$JT$JU!T$KV$KW!T&FU&FV!T~!YYX~X^!Tpq!T#y#z!T$f$g!T#BY#BZ!T$IS$I_!T$I|$JO!T$JT$JU!T$KV$KW!T&FU&FV!T~!}TY~}!O!x!Q![!x!c!}!x#R#S!x#T#o!x~#cOZ~",
   tokenizers: [0],
   topRules: {"ClassNames":[0,1]},
   tokenPrec: 0

@@ -1,8 +1,13 @@
-@top ClassNames { ClassName* }
+@top ClassNames { FullClassName+ }
 
 @skip { space }
 
+FullClassName { Modifier* ClassName }
+
+Modifier { ident  ':' }
+ClassName { ident }
+
 @tokens {
   space { @whitespace+ }
-  ClassName { $[:A-Za-z0-9_-]+ }
+  ident { $[A-Za-z0-9_-]+ }
 }

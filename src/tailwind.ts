@@ -1,17 +1,17 @@
-import { html } from "@codemirror/lang-html";
-import { CompletionContext } from "@codemirror/autocomplete";
-import { syntaxTree, LRLanguage } from "@codemirror/language";
-import { SyntaxNode } from "@lezer/common";
+import { html } from "@codemirror/lang-html"
+import { CompletionContext } from "@codemirror/autocomplete"
+import { syntaxTree, LRLanguage } from "@codemirror/language"
+import { SyntaxNode } from "@lezer/common"
 import corePluginList from 'tailwindcss/lib/corePluginList'
 import { corePlugins } from 'tailwindcss/lib/corePlugins'
 import { parser } from './parser'
 
 import dlv from 'dlv'
-const NegateValue = require('tailwindcss/lib/util/negateValue');
-const NameClass = require('tailwindcss/lib/util/nameClass');
+const NegateValue = require('tailwindcss/lib/util/negateValue')
+const NameClass = require('tailwindcss/lib/util/nameClass')
 const defaultConfig = require('tailwindcss/resolveConfig')(
   require('tailwindcss/defaultConfig')
-);
+)
 
 
 const classConfig = {
@@ -19,40 +19,40 @@ const classConfig = {
   subcategory: 'Basic',
   property: 'Columns',
   variant: 'lg',
-};
+}
 
 function normalizeProperties(input) {
-  if (typeof input !== 'object') return input;
-  if (Array.isArray(input)) return input.map(normalizeProperties);
+  if (typeof input !== 'object') return input
+  if (Array.isArray(input)) return input.map(normalizeProperties)
   return Object.keys(input).reduce((newObj, key) => {
-    let val = input[key];
-    let newVal = typeof val === 'object' ? normalizeProperties(val) : val;
+    let val = input[key]
+    let newVal = typeof val === 'object' ? normalizeProperties(val) : val
     newObj[
       key.replace(/([a-z])([A-Z])/g, (m, p1, p2) => `${p1}-${p2.toLowerCase()}`)
-    ] = newVal;
-    return newObj;
-  }, {});
+    ] = newVal
+    return newObj
+  }, {})
 }
 
 const getPlugins = () => {
-  return corePluginList.default;
-};
+  return corePluginList.default
+}
 
 
 function getUtilities(plugin, { includeNegativeValues = false } = {}) {
-  if (!plugin) return {};
-  const utilities = {};
+  if (!plugin) return {}
+  const utilities = {}
 
   function addUtilities(utils) {
-    utils = Array.isArray(utils) ? utils : [utils];
+    utils = Array.isArray(utils) ? utils : [utils]
     for (let i = 0; i < utils.length; i++) {
       for (let prop in utils[i]) {
         for (let p in utils[i][prop]) {
           if (p.startsWith('@defaults')) {
-            delete utils[i][prop][p];
+            delete utils[i][prop][p]
           }
         }
-        utilities[prop] = normalizeProperties(utils[i][prop]);
+        utilities[prop] = normalizeProperties(utils[i][prop])
       }
     }
   }
@@ -67,19 +67,19 @@ function getUtilities(plugin, { includeNegativeValues = false } = {}) {
     config: (x) =>  '',
     theme: (key, defaultValue) => dlv(defaultConfig.theme, key, defaultValue),
     matchUtilities: (matches, { values, supportsNegativeValues } = {}) => {
-      if (!values) return;
+      if (!values) return
 
-      let modifierValues = Object.entries(values);
+      let modifierValues = Object.entries(values)
 
       if (includeNegativeValues && supportsNegativeValues) {
-        let negativeValues = [];
+        let negativeValues = []
         for (let [key, value] of modifierValues) {
-          let negatedValue = NegateValue.default(value);
+          let negatedValue = NegateValue.default(value)
           if (negatedValue) {
-            negativeValues.push([`-${key}`, negatedValue]);
+            negativeValues.push([`-${key}`, negatedValue])
           }
         }
-        modifierValues.push(...negativeValues);
+        modifierValues.push(...negativeValues)
       }
 
       let result = Object.entries(matches).flatMap(
@@ -88,59 +88,59 @@ function getUtilities(plugin, { includeNegativeValues = false } = {}) {
             .map(([modifier, value]) => {
               let declarations = utilityFunction(value, {
                 includeRules(rules) {
-                  addUtilities(rules);
+                  addUtilities(rules)
                 },
-              });
+              })
 
               if (!declarations) {
-                return null;
+                return null
               }
 
               return {
                 [NameClass.default(name, modifier)
                   .replace('.', '')
                   .replaceAll(/\\/g, '')]: classConfig,
-              };
+              }
             })
-            .filter(Boolean);
+            .filter(Boolean)
         }
-      );
+      )
 
       for (let obj of result) {
         for (let key in obj) {
-          let deleteKey = false;
+          let deleteKey = false
           for (let subkey in obj[key]) {
             if (subkey.startsWith('@defaults')) {
-              delete obj[key][subkey];
-              continue;
+              delete obj[key][subkey]
+              continue
             }
             if (subkey.includes('&')) {
               result.push({
                 [subkey.replace(/&/g, key)]: obj[key][subkey],
-              });
-              deleteKey = true;
+              })
+              deleteKey = true
             }
           }
 
-          if (deleteKey) delete obj[key];
+          if (deleteKey) delete obj[key]
         }
       }
 
-      addUtilities(result);
+      addUtilities(result)
     },
-  });
+  })
 
-  const utilitiesKeys = Object.keys(utilities);
+  const utilitiesKeys = Object.keys(utilities)
   if (utilitiesKeys.length && utilitiesKeys[0].startsWith('.')) {
-    const output = {};
-    for (item in utilities) {
-      output[item.replace('.', '').replaceAll(/\\/g, '')] = classConfig;
+    const output = {}
+    for (const item in utilities) {
+      output[item.replace('.', '').replaceAll(/\\/g, '')] = classConfig
     }
 
-    return output;
+    return output
   }
 
-  return utilities;
+  return utilities
 }
 
 const classNames = corePluginList.filter(x => x !== 'preflight').map(x => Object.keys(getUtilities(corePlugins[x]))).flat()
@@ -148,7 +148,7 @@ const classNames = corePluginList.filter(x => x !== 'preflight').map(x => Object
 const match = (typed: string, candidate: string) => {
   let index = 0
   for (const char of typed) {
-    index = candidate.indexOf(char, index);
+    index = candidate.indexOf(char, index)
     if (index === -1) return false
   }
   return true
